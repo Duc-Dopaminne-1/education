@@ -8,6 +8,8 @@ export class RolesGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     // Example guard: only allow if 'name' query parameter is 'admin'
-    return request.query.name === 'admin';
+    console.log('RolesGuard');
+    // return request.query.name === 'admin';
+    return true;
   }
 }
