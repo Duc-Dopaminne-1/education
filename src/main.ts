@@ -7,6 +7,8 @@ async function bootstrap() {
 
   // app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(3000);
+  await app.listen(8080, () => {
+    console.info('Server is opening on port 8080');
+  });
 }
 bootstrap();
