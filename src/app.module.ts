@@ -12,7 +12,7 @@ import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot('mongodb://localhost:30002'),
     MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
     CacheModule.register({
       store: redisStore,
