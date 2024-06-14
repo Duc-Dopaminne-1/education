@@ -9,6 +9,8 @@ scalar DateTime
 
 type Mutation {
   addUser(newUserInput: NewUserInput!): User!
+  deleteUser(id: String!): User!
+  generate1mUsers: String!
 }
 
 input NewUserInput {
@@ -18,6 +20,7 @@ input NewUserInput {
 
 type Query {
   user(id: String!): User!
+  users: [User!]!
 }
 
 type User {
