@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Car {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   model: string;
   @Prop({ required: true })
   year: number;

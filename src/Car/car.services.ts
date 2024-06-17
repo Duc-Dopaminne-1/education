@@ -15,4 +15,12 @@ export class CarsService {
   findAll(): Promise<Array<Car>> {
     return this.carModel.find().exec();
   }
+
+  update(id: string, data: Partial<Car>): Promise<Car> {
+    return this.carModel.findByIdAndUpdate(id, data, { new: true }).exec();
+  }
+
+  delete(id: string): Promise<Car> {
+    return this.carModel.findByIdAndDelete(id).exec();
+  }
 }
