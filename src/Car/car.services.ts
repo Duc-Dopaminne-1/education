@@ -1,17 +1,18 @@
-
 import { Injectable } from '@nestjs/common';
-import { Car } from './interface/car.interface';
+import { Car, CarDocument } from './schemas/car.schema';
 import { CreateCarDTO } from './dto/create-car-dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CarsService {
-  private readonly cars: Car[] = [];
-
+  constructor(@InjectModel(Car.name) private carModel: Model<CarDocument>) {}
   create(car: CreateCarDTO) {
-    this.cars.push(car);
+    const createdCar = new this.carModel(car);
+    return createdCar.save();
   }
 
-  findAll(): Car[] {
-    return this.cars;
+  findAll(): Promise<Array<Car>> {
+    return this.carModel.find().exec();
   }
 }

@@ -5,14 +5,14 @@ import { CreateCarDTO } from './dto/create-car-dto';
 
 @Controller('cars')
 export class CarsController {
-  constructor(private carServices:CarsService ){}
+  constructor(private carServices: CarsService) {}
   @Get()
-  findAll(): Array<Car> {
-    return this.carServices.findAll()
+  findAll(): Promise<Array<Car>> {
+    return this.carServices.findAll();
   }
 
   @Post()
   create(@Body() createCarDto: CreateCarDTO) {
-    return this.carServices.create(createCarDto)
+    return this.carServices.create(createCarDto);
   }
 }
