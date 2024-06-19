@@ -16,8 +16,7 @@ ENV CI=true
 WORKDIR /app
 COPY package.json ./
 COPY prisma ./prisma
-RUN pnpm fetch --prod
-RUN pnpm install -r --offline --prod
+RUN pnpm install
 
 ###################
 # PRODUCTION
