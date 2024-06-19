@@ -15,8 +15,9 @@ RUN pnpm run build
 FROM base as runner
 ENV CI=true
 WORKDIR /app
-COPY pnpm-lock.yaml ./
-COPY package.json ./
+#COPY pnpm-lock.yaml ./
+#COPY package.json ./
+COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma
 RUN pnpm fetch --prod
 RUN pnpm install -r --offline --prod
