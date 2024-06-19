@@ -1,7 +1,7 @@
-const webpack = require('webpack')
-const path = require('path')
-const nodeExternals = require('webpack-node-externals')
-const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin')
+const webpack = require('webpack');
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 // const { ESBuildMinifyPlugin } = require('esbuild-loader')
 
 module.exports = {
@@ -69,4 +69,4 @@ module.exports = {
   //     }),
   //   ],
   // },
-}
+};
