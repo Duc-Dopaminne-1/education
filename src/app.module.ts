@@ -23,14 +23,13 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     }),
     UserModule,
   ],
-  // controllers: [AppController],
-  // providers: [
-  //   AppService,
-  //   {
-  //     provide: APP_INTERCEPTOR,
-  //     useClass: LoggingInterceptor,
-  //   },
-  //   UserService,
-  // ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}
