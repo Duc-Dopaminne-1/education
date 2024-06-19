@@ -1,5 +1,5 @@
 FROM node:20.12-buster as base
-RUN npm i -g pnpm@8.15.4
+RUN npm i -g pnpm@9.3.0
 RUN npm i -g prisma
 
 FROM base as builder
@@ -25,7 +25,7 @@ RUN pnpm install -r --offline --prod
 # PRODUCTION
 ###################
 
-FROM node:17.5-buster
+FROM node:20.10.0-buster
 # ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
