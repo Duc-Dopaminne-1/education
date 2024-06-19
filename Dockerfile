@@ -1,10 +1,11 @@
 FROM node:20.12-buster as base
-RUN npm i -g pnpm@9.3.0
+RUN npm i -g pnpm@8.15.4
 RUN npm i -g prisma
 
 FROM base as builder
 ENV CI=true
 WORKDIR /app
+COPY pnpm-lock.yaml ./
 RUN pnpm fetch
 ADD . ./
 RUN pnpm install
@@ -14,15 +15,17 @@ RUN pnpm run build
 FROM base as runner
 ENV CI=true
 WORKDIR /app
+COPY pnpm-lock.yaml ./
 COPY package.json ./
 COPY prisma ./prisma
-RUN pnpm install
+RUN pnpm fetch --prod
+RUN pnpm install -r --offline --prod
 
 ###################
 # PRODUCTION
 ###################
 
-FROM node:20.12-buster
+FROM node:17.5-buster
 # ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=builder /app/dist ./dist

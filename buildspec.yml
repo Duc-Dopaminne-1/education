@@ -1,32 +1,33 @@
 version: 0.2
-run-as: root
 
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR.......
-      - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 648427382564.dkr.ecr.ap-northeast-1.amazonaws.com
-      - # Replace with this to your repository URI
-      - REPOSITORY_URL=648427382564.dkr.ecr.ap-northeast-1.amazonaws.com/education
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_NUMBER)
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+  install:
+    commands:
+      - echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
   build:
     commands:
       - echo Build started on `date`
-      - echo Docker image is building...
-      - npm --version
-      - npm install express
-      - npm install prom-client
-      - docker build -t $REPOSITORY_URL:latest .
-      - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$IMAGE_TAG
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG_LATEST .
+      #- docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG_LATEST .
+      #- docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG_LATEST .
+      #- docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG_LATEST .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG_LATEST $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG_LATEST $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG_LATEST
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing Docker image to AWS ECR .....
-      - docker push $REPOSITORY_URL:$IMAGE_TAG
-      - echo ECS Configuration....
-      - echo Writing image definitions file...
-      - CONTAINER_NAME=nodeapp-container
-      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URL:$IMAGE_TAG > imagedefinitions.json
-      - cat imagedefinitions.json
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG_LATEST
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
 artifacts:
-  files: imagedefinitions.json
+  files:
+    - '**/*'
+  name: build-artifact-education-backend
+  discard-paths: no
