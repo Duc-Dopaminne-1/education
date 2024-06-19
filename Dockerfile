@@ -33,4 +33,4 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=runner /app/node_modules ./node_modules
 #COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 EXPOSE 8080
-CMD ["start:prod"]
+CMD ["npm", "run", "start:prod"]
