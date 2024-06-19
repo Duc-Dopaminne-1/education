@@ -24,7 +24,7 @@ RUN pnpm install -r --offline --prod
 # PRODUCTION
 ###################
 
-FROM node:v20.10.0-buster
+FROM node:20.12-buster
 # ENV NODE_ENV=production
 WORKDIR /app
 COPY .env ./.env
