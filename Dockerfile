@@ -16,7 +16,6 @@ ENV CI=true
 WORKDIR /app
 COPY package.json ./
 COPY prisma ./prisma
-COPY .env ./.env
 RUN pnpm fetch --prod
 RUN pnpm install -r --offline --prod
 
@@ -27,7 +26,6 @@ RUN pnpm install -r --offline --prod
 FROM node:20.12-buster
 # ENV NODE_ENV=production
 WORKDIR /app
-COPY .env ./.env
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 COPY --from=runner /app/node_modules ./node_modules
