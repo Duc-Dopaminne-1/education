@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(8080, () => {
-    console.log('Listner post 8080');
+    console.info('Server is opening on port 8080');
   });
 }
 bootstrap();
