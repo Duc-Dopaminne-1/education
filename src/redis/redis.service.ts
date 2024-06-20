@@ -6,10 +6,15 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   private redisClient: Redis;
 
   onModuleInit() {
-    this.redisClient = new Redis({
-      host: 'education-redis-v5sf2z.serverless.apne1.cache.amazonaws.com', // Redis server host
-      port: 6379, // Redis server port
+    console.log('2222', {
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT),
     });
+    this.redisClient = new Redis({
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT),
+    });
+    console.log('333', this.redisClient);
   }
 
   onModuleDestroy() {
