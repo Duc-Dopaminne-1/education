@@ -17,6 +17,7 @@ input NewUserInput {
 }
 
 type Query {
+  getAll: [User!]!
   user(id: String!): User!
 }
 

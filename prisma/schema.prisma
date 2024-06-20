@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = "mongodb://mongo1:30001,mongo2:30002,mongo3:30003/Dopamine?replicaSet=my-replica-set"
+  url      = "mongodb+srv://hungta1811:aDeilj5dRm68QBcC@cluster0.p6pohud.mongodb.net/Exercise"
 }
 
 model User {

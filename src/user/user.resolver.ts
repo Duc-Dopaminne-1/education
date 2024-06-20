@@ -12,6 +12,11 @@ export class UserResolver {
     return this.userService.user(id);
   }
 
+  @Query(() => [User])
+  async getAll() {
+    return this.userService.getAll();
+  }
+
   @Mutation(() => User)
   async addUser(
     @Args('newUserInput')

@@ -18,4 +18,8 @@ export class UserService {
       data,
     });
   }
+
+  async getAll(): Promise<User[]> {
+    return this.prismaService.user.findMany().catch(() => ([]))
+  }
 }
